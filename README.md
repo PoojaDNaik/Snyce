@@ -6,11 +6,12 @@ The **Checklist Application** is a web application built using **FastAPI**. This
 - User authentication and login
 - Create, view, and manage checklists
 - Backend API with **FastAPI**
+- **MySQL** database for data storage
 
 ## Installation
 
 ### Prerequisites
-Ensure you have Python 3.11.6 installed.
+- **Python 3.11.6**
 
 ### Steps to Install
 
@@ -32,7 +33,13 @@ Ensure you have Python 3.11.6 installed.
     pip install -r requirements.txt
     ```
 
-4. **Run the application**:
+4. **Run the database initialization script**:
+    If you're using a different server or environment, you will need to initialize the database before starting the application. Run the following command to set up the necessary tables:
+    ```bash
+    python initDB.py
+    ```
+
+5. **Run the application**:
     Use **uvicorn** to start the FastAPI server:
     ```bash
     uvicorn main:app --reload
