@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Check List</title>
+</head>
+<body>
+    <h1 id="head">hi</h1>
+    <div>
+        <input type="text" placeholder="enter checkList name" id="ListName">
+        <p>Create Items</p>
+        <div id="question-container">
+            <input type="text" class="item">
+        </div>
+        <button id="add-more">add more</button>
+        <button id="create">Create</button>
+    </div>
+    <script>
+        const addMore = document.getElementById("add-more");
+        addMore.onclick = ()=>{
+            const qc = document.getElementById("question-container");
+            let input = document.createElement("input");
+            input.classList.add("item");
+            qc.append(input)
+        }
+        const create = document.getElementById("create")
+        create.onclick = async ()=>{
+            const title = document.getElementById("ListName").value;
+            const items = Array.from(document.querySelectorAll(".item")).map((input)=>{return input.value});
+            console.log(items)
+            console.log(document.querySelectorAll(".item"))
+            const resp = await fetch("/create-check-list",{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json",
+                },
+                body:JSON.stringify({
+                    title,
+                    items,
+                    id:localStorage.getItem("id")
+                })
+            })
+            const res = await resp.json();
+            if(res.success){
+                alert("Done");
+                window.location.pathname = "/";
+            }else{
+                alert("Something went wrong");
+            }
+        }
+    </script>
+    <script src="../static/loginCheck.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+<body>
+    <input type="text" placeholder="email" id="email">
+    <input type="password" placeholder="password" id="password">
+    <button id="button">Register</button>
+    <p>Already have and account? <a href="/login">Login</a></p>
+    <script defer>
+        const loginButton = document.getElementById("button");
+        loginButton.onclick = async (e) => {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const response = await fetch("/register",{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    email,
+                    password
+                })
+            });
+            const res = await response.json();
+
+            if(!res.success){
+                alert("Invalid Constrant")
+            }else{
+                localStorage.setItem("id",res.id);
+                window.location.pathname = '/'
+            }
+        }
+    </script>
+</body>
+</html>

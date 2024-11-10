@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>checklist Response</title>
+</head>
+<body>
+    <h1>{{listName}}</h1>
+    {% if listOfList|length == 0%}
+     <div>No response Yet</div>
+    {% else %}
+    <div>
+            <div> Response count: {{ listOfList|length }}</div>
+            {% for list in listOfList %}
+                <div id="printid{{loop.index}}"> 
+                    <details>
+                    <summary>User - {{list[0][0]}} : </summary>
+                    <p>
+                        {% for tpl in list%}
+                            <div>
+                                <span>{{loop.index}}.{{question[tpl[1]]}} : </span>
+                                <span>{{tpl[2]}}</span>
+                                <p> Comment: {{tpl[3]}}</p>
+                            </div>
+                        {% endfor %}
+                    </p>
+                    <button id="printButtion{{loop.index}}">Print</button>
+                    </details>
+                </div>
+                <script>
+                    const button = document.getElementById("printButtion{{loop.index}}");
+                    button.onclick = () => {
+                        printDiv("printid{{loop.index}}");
+                    }
+
+                    function printDiv(x) {
+                        const divContents = document.getElementById(x).innerHTML;
+                        var win = window.open('', '', 'height=500, width=500');
+                        var date = new Date().toDateString();
+                        win.document.write('<html>');
+                        win.document.write('<head>');
+                        win.document.write('<link rel="stylesheet" href="myCss.css">');
+                        win.document.write('<title>{{listName}}</title>')
+                        
+                        win.document.write('</head>');
+                        win.document.write('<body> <div class=head><h1>Respon of user {{loop.index}}</h1></div>');
+
+
+                        win.document.write(date);
+                        win.document.write('</div>');
+                        win.document.write(divContents);
+                        win.document.write('</body></html>');
+                        win.document.close();
+                        win.print();
+                    }
+                </script>
+            {% endfor %}
+        </div>
+    {% endif %}
+</body>
+</html>

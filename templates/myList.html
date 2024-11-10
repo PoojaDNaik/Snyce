@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% if myList|length == 0 %}
+        <div>You dont have checklist
+        </div>
+    {% else %}
+        {% for list in myList %}
+         <details>
+                <summary>{{loop.index}}.{{list[1]}} : </summary>
+                <p>
+                    <div> share with: http://127.0.0.1:8000/checklist/{{list[0]}}</div>
+                    <div>See Respones: <a href="http://127.0.0.1:8000/cheklist-user-response/{{list[0]}}/">Click here</a></div>
+                </p>
+        </details>
+           
+        {% endfor%}
+    {% endif %}
+</body>
+</html>

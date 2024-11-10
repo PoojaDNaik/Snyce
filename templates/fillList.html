@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if listName == "None" %}
+        <title>Not Found</title>
+    {% else %}
+        <title>{{listName}}</title>
+    {% endif %}
+</head>
+<body>
+    {%if listName == None %}
+        <title>Not Found</title>
+    {% else %}
+        <div>{{listName}}</div>
+        <br>
+        <div>
+            {% for item in listItem%}
+                <div>{{loop.index}}. {{ item[1] }}</div>
+                <select class="resp">
+                    <option value="NA" default>NA</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+                <input type="text" class="comment" placeholder="comment">
+                {% endfor %}
+            </div>
+            <button id="button">submit</button>
+    {% endif %}
+    <script>
+        const button = document.getElementById("button");
+        if(button){
+            button.onclick = async ()=>{
+                const resp = Array.from(document.querySelectorAll(".resp")).map((sel)=>{
+                    return sel.value;
+                })
+                const comment = Array.from(document.querySelectorAll(".comment")).map((inp)=>{
+                    return inp.value?inp.value:"";
+                })
+                const response = await fetch("/submit/"+'{{listid}}',{
+                    method:"POST",
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+                    body:JSON.stringify({
+                        resp,
+                        comment,
+                        id:localStorage.getItem("id")
+                    })
+                });
+                const res = await response.json();
+                console.log(res)
+                if(!res.success){
+                    alert("Invalid Constrant")
+                }else{
+                    alert("Done")
+                    window.location.pathname = '/'
+                }
+            }
+        }
+    </script>
+</body>
+</html>
